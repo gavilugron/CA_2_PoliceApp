@@ -13,10 +13,9 @@ public class MyArrayList<ElemType> extends ArrayList<ElemType> {
     //----------------------------- Binary Search - MyArrayList ------------------------------------------//
 
     int binarySearch_nonRecursive(ElemType key, int start, int end) {
-        boolean found;
+        boolean found = false;
         int middle = 0;
-        found = false;
-        while ((start <= end) && (found == false)) {
+        while ((start <= end) && (!found)) {
             middle = (start + end) / 2;
             if (((Comparable) get(middle)).compareTo((Comparable) key) == 0) {
                 found = true;
@@ -26,45 +25,30 @@ public class MyArrayList<ElemType> extends ArrayList<ElemType> {
                 end = middle - 1;
             }
         }
-        if (found == true) {
-            return middle;
-        } else {
-            return -1;
-        }
+        return found ? middle : -1;
     }
 
     int binarySearch_recursive(ElemType key, int start, int end) {
-        int middle = 0;
-        int result;
-        middle = (start + end) / 2;
-
+        int middle = (start + end) / 2;
+        if (start > end) return -1;
         if (((Comparable) get(middle)).compareTo((Comparable) key) == 0) {
-            result = middle;
-        } else if (start == end) {
-            result = -1;
+            return middle;
+        } else if (((Comparable) get(middle)).compareTo((Comparable) key) > 0) {
+            return binarySearch_recursive(key, start, middle - 1);
         } else {
-            if (((Comparable) get(middle)).compareTo((Comparable) key) > 0) {
-                result = binarySearch_recursive(key, start, middle - 1);
-            } else {
-                result = binarySearch_recursive(key, middle + 1, end);
-            }
+            return binarySearch_recursive(key, middle + 1, end);
         }
-
-        return result;
     }
 //----------------------------- Bubble Sort - MyArrayList ------------------------------------------//
 
-    public void bubblesort(){
-        int i,j;
+    public void bubblesort() {
+        int i, j;
         Comparable elemAtJ, elemAtJPlus;
-        for(i = 0; i < size(); i++)
-        {
-            for(j = 0; j < size()-1 -i; j++)
-            {
+        for (i = 0; i < size(); i++) {
+            for (j = 0; j < size() - 1 - i; j++) {
                 elemAtJ = (Comparable) get(j);
                 elemAtJPlus = (Comparable) get(j + 1);
-                if(elemAtJ.compareTo(elemAtJPlus) > 0)
-                {
+                if (elemAtJ.compareTo(elemAtJPlus) > 0) {
                     swap(j, j + 1);
                 }
             }
