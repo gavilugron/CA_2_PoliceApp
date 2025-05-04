@@ -27,7 +27,7 @@ public class Employee implements Comparable<Employee> {
 
     // Enum options for Departments
     public enum Unit {
-        INVESTIGATIONS,
+        SPECIAL_DETECTIVE_UNIT,
         PATROL,
         FORENSICS,
         HUMAN_RESOURCES,

@@ -10,6 +10,8 @@ import java.util.*;
  */
 public class MyArrayList<ElemType> extends ArrayList<ElemType> {
 
+    //----------------------------- Binary Search - MyArrayList ------------------------------------------//
+
     int binarySearch_nonRecursive(ElemType key, int start, int end) {
         boolean found;
         int middle = 0;
