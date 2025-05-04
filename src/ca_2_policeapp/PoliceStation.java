@@ -26,7 +26,7 @@ public class PoliceStation {
 
             }
 
-            private void newRecruits() throws IOException {
+            private void ReadNewRecruitsFile() throws IOException {
             BufferedReader reader = new BufferedReader(new FileReader("New_Recruits.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -36,7 +36,7 @@ public class PoliceStation {
             System.out.println("New Recruits loaded successfully.");
             }
 
-            
+
             // Non-recursive binary search on String
             MyArrayList<String> mylist2;
             mylist2 = new MyArrayList<String>();
