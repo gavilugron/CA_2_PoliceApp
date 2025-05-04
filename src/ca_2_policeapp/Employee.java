@@ -11,7 +11,7 @@ package ca_2_policeapp;
 public class Employee implements Comparable<Employee> {
     String name;
     Rank rank;
-    Department department;
+    Unit unit;
 
     //Enum options for Ranks
     public enum Rank {
@@ -24,20 +24,24 @@ public class Employee implements Comparable<Employee> {
         SERGEANT,
         GARDA
     }
+
     // Enum options for Departments
-    public enum Department {
+    public enum Unit {
         INVESTIGATIONS,
         PATROL,
         FORENSICS,
-        RH,
-        ACCOUNTANT,
-        SPY
+        HUMAN_RESOURCES,
+        FINANCE,
+        SECURITY_AND_INTELLIGENCE,
+        ANTI_CORRUPTION_UNIT,
+        NATIONAL_CYBER_CRIME_BUREAU
     }
+
     //Employee object
-    public Employee(String name, Rank rank, Department department) {
+    public Employee(String name, Rank rank, Unit unit) {
         this.name = name;
         this.rank = rank;
-        this.department = department;
+        this.unit = unit;
     }
     // Compare employees alphabetically by name
     @Override
