@@ -18,19 +18,19 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                   // Sorted names
+                    // sortAndDisplayNames();
                     break;
                 case 2:
-                   //Search specific employee
+                    searchEmployee();
                     break;
                 case 3:
-                    //Add new employees
+                    addNewEmployee();
                     break;
                 case 4:
-                    //Generate Random Employees
+                    generateRandomEmployees();
                     break;
                 case 5:
-                    //Display all the employees;
+                    displayAllEmployees();
                     break;
                 case 6:
                     exit = true;
@@ -42,3 +42,4 @@ public class Main {
         }
     }
 }
+

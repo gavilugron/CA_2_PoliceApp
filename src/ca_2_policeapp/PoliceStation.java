@@ -1,72 +1,73 @@
 package ca_2_policeapp;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class PoliceStation {
-    private final List<Employee> employees = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
+    private BinarySearch<Employee> employees;
+    private ArrayList<Rank> ranks;
+    private ArrayList<Unit> units;
 
-    public void run() throws IOException, IOException {
-        loadApplicants();
-        //boolean running = true;
-        while (true) {
-            System.out.println("\nPlease select an option:");
-            for (MenuOption option : MenuOption.values()) {
-                System.out.println(option.getValue() + ". " + option);
+    public PoliceStation(ArrayList<Rank> ranks, ArrayList<Unit> units) {
+        this.employees = new BinarySearch<>();
+        this.ranks = ranks;
+        this.units = units;
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+
+    public ArrayList<Employee> getEmployees() {
+        return employees;
+    }
+
+    public ArrayList<Rank> getRanks() {
+        return ranks;
+    }
+
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public Rank findRankByName(String name) {
+        for (Rank rank : ranks) {
+            if (rank.getName().equalsIgnoreCase(name)) {
+                return rank;
             }
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-            switch (MenuOption.fromValue(choice)) {
-                case SORT:
+        }
+        return null;
+    }
 
-
+    public Unit findUnitByName(String name) {
+        for (Unit unit : units) {
+            if (unit.getName().equalsIgnoreCase(name)) {
+                return unit;
             }
+        }
+        return null;
+    }
 
-            private void ReadNewRecruitsFile() throws IOException {
-            BufferedReader reader = new BufferedReader(new FileReader("Applicants.txt"));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                employees.add(new Employee(line.trim(), null, null));
-            }
-            reader.close();
-            System.out.println("New Recruits loaded successfully.");
-            }
+    public void generateRandomEmployees(int count) {
+        Random random = new Random();
+        String[] firstNames = {"John", "Mary", "Patrick", "Aoife", "Michael", "Siobhan", "James", "Emma", "Daniel", "Sarah"};
+        String[] lastNames = {"Murphy", "Kelly", "O'Sullivan", "Walsh", "Smith", "O'Brien", "Byrne", "Ryan", "O'Connor", "O'Neill"};
+        String[] genders = {"Male", "Female"};
+        String[] positions = {"Patrol Officer", "Detective", "Specialist", "Supervisor", "Administrator"};
+        String[] stations = {"Dublin", "Cork", "Galway", "Limerick", "Waterford"};
 
+        for (int i = 0; i < count; i++) {
+            String firstName = firstNames[random.nextInt(firstNames.length)];
+            String lastName = lastNames[random.nextInt(lastNames.length)];
+            String gender = genders[random.nextInt(genders.length)];
+            String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@garda.ie";
+            double salary = 30000 + random.nextInt(70000);
+            Rank rank = ranks.get(random.nextInt(ranks.size()));
+            Unit unit = units.get(random.nextInt(units.size()));
+            String position = positions[random.nextInt(positions.length)];
+            String station = stations[random.nextInt(stations.length)];
 
-            // Non-recursive binary search on String
-            MyArrayList<String> mylist2;
-            mylist2 = new MyArrayList<String>();
-
-            mylist2.add("United States");
-            mylist2.add("Ireland");
-            mylist2.add("China");
-            mylist2.add("Sweden");
-            mylist2.add("Norway");
-            mylist2.add("Finland");
-            mylist2.add("Denmark");
-            mylist2.add("Germany");
-            mylist2.add("France");
-            mylist2.add("Austria");
-
-            // Sorting the String list before binary search
-            int pos;
-            Collections.sort(mylist2);
-
-            String key3 = "Norway";
-
-            //startTime = System.nanoTime();
-            pos = mylist2.binarySearch_nonRecursive(key3, 0, mylist2.size() - 1);
-            //endTime = System.nanoTime();
-            //System.out.println("Non-recursive search (String) took " + (endTime - startTime) + " ns");
-
-            if (pos == -1) {
-                System.out.println("The country name using Binary search non recursive : " + key3 + " NOT found!");
-            } else {
-                System.out.println("The country name using Binary search non recursive : " + key3 + " found at position " + pos + "!");
-            }
-
+            employees.add(new Employee(firstName, lastName, gender, email, salary, unit, rank, position, station));
+        }
+    }
 }
