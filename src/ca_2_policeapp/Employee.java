@@ -8,45 +8,31 @@ package ca_2_policeapp;
  *
  * @author gvilu
  */
-public class Employee implements Comparable<Employee> {
-    String name;
-    Rank rank;
-    Unit unit;
+public class Employee {
+    // Setting attributes of the Employee class
+    private String firstName;
+    private String lastName;
+    private String gender;
+    private String email;
+    private double salary;
+    private Unit unit;
+    private Rank rank;
+    private String position;
+    private String station;
 
-    //Enum options for Ranks
-    public enum Rank {
-        COMMISSIONER,
-        DEPUTY_COMMISSIONER,
-        ASSISTANT_COMMISSIONER,
-        CHIEF_SUPERINTENDENT,
-        SUPERINTENDENT,
-        INSPECTOR,
-        SERGEANT,
-        GARDA
-    }
-
-    // Enum options for Departments
-    public enum Unit {
-        SPECIAL_DETECTIVE_UNIT,
-        PATROL,
-        FORENSICS,
-        HUMAN_RESOURCES,
-        FINANCE,
-        SECURITY_AND_INTELLIGENCE,
-        ANTI_CORRUPTION_UNIT,
-        NATIONAL_CYBER_CRIME_BUREAU
-    }
-
-    //Employee object
-    public Employee(String name, Rank rank, Unit unit) {
-        this.name = name;
-        this.rank = rank;
+    // Constructor for new employees
+    public Employee(String firstName, String lastName, String gender, String email,
+                    double salary, Unit unit, Rank rank, String position, String station) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.salary = salary;
         this.unit = unit;
+        this.rank = rank;
+        this.position = position;
+        this.station = station;
     }
-    // Compare employees alphabetically by name
-    @Override
-    public int compareTo(Employee o) {
-        return this.name.compareTo(o.name);
-    }
+
 }
 

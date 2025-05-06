@@ -27,7 +27,7 @@ public class PoliceStation {
             }
 
             private void ReadNewRecruitsFile() throws IOException {
-            BufferedReader reader = new BufferedReader(new FileReader("New_Recruits.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("Applicants.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
                 employees.add(new Employee(line.trim(), null, null));
