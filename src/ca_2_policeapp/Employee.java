@@ -33,6 +33,45 @@ public class Employee {
         this.position = position;
         this.station = station;
     }
+    //Methods to access to the attributes of the employee
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public Rank getRank() {
+        return rank;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public String getStation() {
+        return station;
+    }
 }
 
