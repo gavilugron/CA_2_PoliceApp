@@ -39,26 +39,60 @@ public class MyArrayList<ElemType> extends ArrayList<ElemType> {
             return binarySearch_recursive(key, middle + 1, end);
         }
     }
-//----------------------------- Bubble Sort - MyArrayList ------------------------------------------//
 
-    public void bubblesort() {
-        int i, j;
-        Comparable elemAtJ, elemAtJPlus;
-        for (i = 0; i < size(); i++) {
-            for (j = 0; j < size() - 1 - i; j++) {
-                elemAtJ = (Comparable) get(j);
-                elemAtJPlus = (Comparable) get(j + 1);
-                if (elemAtJ.compareTo(elemAtJPlus) > 0) {
-                    swap(j, j + 1);
-                }
-            }
+//----------------------------------------MERGE SORT ----------------------------------------------------//
+    public static void mergeSort(Employee[] list, int left, int right) {
+        if (left < right) {
+            int middle = (left + right) / 2;
+            mergeSort(list, left, middle);
+            mergeSort(list, middle + 1, right);
+            merge(list, left, middle, right);
         }
     }
 
-    public void swap(int pos1, int pos2) {
-        ElemType objPos1 = get(pos1);
-        ElemType objPos2 = get(pos2);
-        set(pos1, objPos2);
-        set(pos2, objPos1);
+
+    // Merge two sorted parts of the list
+    private static void merge(Employee[] list, int left, int middle, int right) {
+        int sizeLeft = middle - left + 1;
+        int sizeRight = right - middle;
+
+        // Create temporary arrays which help with the sorting storing temporary data, one for the left and other for the right side of the array
+        Employee[] leftPart = new Employee[sizeLeft];
+        Employee[] rightPart = new Employee[sizeRight];
+
+        // Copy data into the temporary arrays
+        for (int i = 0; i < sizeLeft; i++) {
+            leftPart[i] = list[left + i];
+        }
+        for (int j = 0; j < sizeRight; j++) {
+            rightPart[j] = list[middle + 1 + j];
+        }
+
+        // Merge the two arrays back into the main list
+        int i = 0, j = 0, k = left;
+        while (i < sizeLeft && j < sizeRight) {
+            if (leftPart[i].getFullName().compareToIgnoreCase(rightPart[j].getFullName()) <= 0) {
+                list[k] = leftPart[i];
+                i++;
+            } else {
+                list[k] = rightPart[j];
+                j++;
+            }
+            k++;
+        }
+
+        // Copy any remaining elements in the left part
+        while (i < sizeLeft) {
+            list[k] = leftPart[i];
+            i++;
+            k++;
+        }
+
+        // Copy any remaining elements in the right part
+        while (j < sizeRight) {
+            list[k] = rightPart[j];
+            j++;
+            k++;
+        }
     }
 }
