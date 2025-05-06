@@ -71,7 +71,20 @@ public class Employee {
     }
 
     public String getStation() {
-        return station;
+                    return station;
+                }
+
+    // Method that returns a formatted description of the employee
+    @Override
+    public String toString() {
+        return "Name: " + getFullName() + "\n" +
+                "Gender: " + getGender() + "\n" +
+                "Email: " + getEmail() + "\n" +
+                "Salary: €" + getSalary() + "\n" +
+                "Rank: " + getRank().getName() + "\n" +
+                "Unit: " + getUnit().getName() + "\n" +
+                "Position: " + getPosition() + "\n" +
+                "Station: " + getStation();
     }
 }
 
