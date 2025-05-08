@@ -96,8 +96,8 @@ public class PoliceStation {
             String gender = genders[random.nextInt(genders.length)].toUpperCase();
             String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@garda.ie";
 
-            // Realistic salary between €35,000 and €85,000
-            double salary = 35000 + random.nextInt(50000);
+            // salary between €3000 and €10000
+            double salary = 3000 + random.nextInt(10000);
 
             Rank rank = ranks.get(random.nextInt(ranks.size()));
             Unit unit = units.get(random.nextInt(units.size()));
