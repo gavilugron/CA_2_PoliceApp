@@ -8,8 +8,21 @@ package ca_2_policeapp;
  *
  * @author gvilu
  */
-public class Unit extends Gard {
-    public Unit(String name) {
-        super(name);
+public class Gard {
+    private String name;
+
+    public Gard(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
+
+

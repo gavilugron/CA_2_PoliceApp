@@ -1,15 +1,22 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package ca_2_policeapp;
 
-import java.util.ArrayList;
-import java.util.Random;
+/**
+ *
+ * @author gvilu
+ */
+import java.util.*;
 
 public class PoliceStation {
-    private BinarySearch<Employee> employees;
+    private MyArrayList<Employee> employees;
     private ArrayList<Rank> ranks;
     private ArrayList<Unit> units;
 
     public PoliceStation(ArrayList<Rank> ranks, ArrayList<Unit> units) {
-        this.employees = new BinarySearch<>();
+        this.employees = new MyArrayList<>();
         this.ranks = ranks;
         this.units = units;
     }

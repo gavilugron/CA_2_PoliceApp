@@ -8,8 +8,7 @@ package ca_2_policeapp;
  *
  * @author gvilu
  */
-public class Employee {
-    // Setting attributes of the Employee class
+public class Employee implements Comparable<Employee>{
     private String firstName;
     private String lastName;
     private String gender;
@@ -20,7 +19,6 @@ public class Employee {
     private String position;
     private String station;
 
-    // Constructor for new employees
     public Employee(String firstName, String lastName, String gender, String email,
                     double salary, Unit unit, Rank rank, String position, String station) {
         this.firstName = firstName;
@@ -35,56 +33,71 @@ public class Employee {
     }
     //Methods to access to the attributes of the employee
     public String getFullName() {
-        return getFirstName() + " " + getLastName();
+        return firstName + " " + lastName;
     }
 
-    public String getFirstName() {
+    public String getFirstName()
+    {
         return firstName;
     }
 
-    public String getLastName() {
+    public String getLastName()
+    {
         return lastName;
     }
 
-    public String getGender() {
+    public String getGender()
+    {
         return gender;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public double getSalary() {
+    public double getSalary()
+    {
         return salary;
     }
 
-    public Unit getUnit() {
+    public Unit getUnit()
+    {
         return unit;
     }
 
-    public Rank getRank() {
+    public Rank getRank()
+    {
         return rank;
     }
 
-    public String getPosition() {
+    public String getPosition()
+    {
         return position;
     }
 
-    public String getStation() {
-                    return station;
-                }
+    public String getStation()
+    {
+        return station;
+    }
 
-    // Method that returns a formatted description of the employee
+
     @Override
     public String toString() {
         return "Name: " + getFullName() + "\n" +
-                "Gender: " + getGender() + "\n" +
-                "Email: " + getEmail() + "\n" +
-                "Salary: €" + getSalary() + "\n" +
-                "Rank: " + getRank().getName() + "\n" +
-                "Unit: " + getUnit().getName() + "\n" +
-                "Position: " + getPosition() + "\n" +
-                "Station: " + getStation();
+                "Gender: " + gender + "\n" +
+                "Email: " + email + "\n" +
+                "Salary: €" + salary + "\n" +
+                "Rank: " + rank.getName() + "\n" +
+                "Unit: " + unit.getName() + "\n" +
+                "Position: " + position + "\n" +
+                "Station: " + station;
+    }
+
+    @Override
+    public int compareTo(Employee o) {
+
+        return this.firstName.compareTo(o.firstName);
     }
 }
 
