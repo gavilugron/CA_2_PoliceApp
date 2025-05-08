@@ -128,8 +128,6 @@ public class Main {
                     String rankName = parts[6].trim();
                     String position = parts[7].trim();
                     String station = parts[8].trim();
-
-
                     Unit unit = policeStation.findUnitByName(unitName);
                     Rank rank = policeStation.findRankByName(rankName);
 
