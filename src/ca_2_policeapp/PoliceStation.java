@@ -3,30 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ca_2_policeapp;
-
+import java.util.*;
 /**
  *
  * @author gvilu
  */
-import java.util.*;
 
-public class PoliceStation {
-    private MyArrayList<Employee> employees;
+ppublic class PoliceStation {
+    private SaveToFile<Employee> employees;
     private ArrayList<Rank> ranks;
     private ArrayList<Unit> units;
+    private ArrayList<String> positions;
+    private ArrayList<String> stations;
 
-    public PoliceStation(ArrayList<Rank> ranks, ArrayList<Unit> units) {
-        this.employees = new MyArrayList<>();
+    public PoliceStation(ArrayList<Rank> ranks, ArrayList<Unit> units, ArrayList<String> positions, ArrayList<String> stations) {
+        this.employees = new SaveToFile<>();
         this.ranks = ranks;
         this.units = units;
+        this.positions = positions;
+        this.stations = stations;
     }
 
     public void addEmployee(Employee employee) {
         employees.add(employee);
-    }
-
-    public ArrayList<Employee> getEmployees() {
-        return employees;
     }
 
     public ArrayList<Rank> getRanks() {
@@ -53,6 +52,10 @@ public class PoliceStation {
             }
         }
         return null;
+    }
+
+    public SaveToFile<Employee> getEmployees() {
+        return employees;
     }
 
     public void generateRandomEmployees(int count) {
