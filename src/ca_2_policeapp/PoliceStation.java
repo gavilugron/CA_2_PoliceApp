@@ -9,7 +9,7 @@ import java.util.*;
  * @author gvilu
  */
 
-ppublic class PoliceStation {
+public class PoliceStation {
     private SaveToFile<Employee> employees;
     private ArrayList<Rank> ranks;
     private ArrayList<Unit> units;
@@ -26,6 +26,10 @@ ppublic class PoliceStation {
 
     public void addEmployee(Employee employee) {
         employees.add(employee);
+    }
+
+    public SaveToFile<Employee> getEmployees() {
+        return employees;
     }
 
     public ArrayList<Rank> getRanks() {
@@ -54,30 +58,54 @@ ppublic class PoliceStation {
         return null;
     }
 
-    public SaveToFile<Employee> getEmployees() {
-        return employees;
-    }
-
     public void generateRandomEmployees(int count) {
         Random random = new Random();
-        String[] firstNames = {"John", "Mary", "Patrick", "Aoife", "Michael", "Siobhan", "James", "Emma", "Daniel", "Sarah"};
-        String[] lastNames = {"Murphy", "Kelly", "O'Sullivan", "Walsh", "Smith", "O'Brien", "Byrne", "Ryan", "O'Connor", "O'Neill"};
+        String[] firstNames =
+                {
+                        "JOHN", "EMMA", "LIAM", "OLIVIA", "NOAH", "AVA", "ELIJAH", "SOPHIA",
+                        "WILLIAM", "MIA", "JAMES", "CHARLOTTE", "BENJAMIN", "AMELIA", "LUCAS",
+                        "ISABELLA", "HENRY", "EVELYN", "ALEXANDER", "HARPER", "LIAM", "NOAH", "JAMES", "DANIEL", "JACK",
+                        "MICHAEL", "MATTHEW", "CONNOR", "SEAN", "RYAN", "KEVIN", "PATRICK", "BRENDAN", "DYLAN", "AIDAN", "EOIN",
+                        "CIARAN", "SHANE", "COLIN", "NIALL", "EMMA", "SOPHIE", "AOIFE", "SARAH", "GRACE", "EMILY", "CHLOE", "KATIE",
+                        "ELLA", "LEAH", "AMY", "NIAMH", "ANNA", "EIMEAR", "CAOIMHE", "RACHEL", "LAURA", "ORLA", "SIOBHAN", "ROISIN"
+
+                };
+        String[] lastNames =
+                {
+                        "MURPHY", "BYRNE", "WALSH", "OCONNOR", "DOYLE", "MCCARTHY", "GALLAGHER", "DUNNE", "FITZGERALD", "KELLY",
+                        "OBRIEN", "FLYNN", "SHEEHAN", "KAVANAGH", "MURRAY", "QUINN", "KEANE", "BRADY", "REILLY", "CLARKE",
+                        "LYNCH", "CASEY", "HAYES", "POWER", "NOLAN", "KENNEDY", "HUGHES", "CAHILL", "BRENNAN", "MAGUIRE",
+                        "BOYLE", "MOORE", "MORAN", "FARRELL", "CARROLL", "GREENE", "HEALY", "COLLINS", "REDMOND", "FINN", "MCGRATH",
+                        "OLOUGHLIN", "SCANLON", "BURKE", "CONNOLLY", "MULCAHY", "MCLOUGHLIN", "OCRAIG", "DEVLIN", "SULLIVAN",
+                        "MCMAHON", "OFLAHERTY", "MCNAMARA", "OCEALLAIGH", "OHEHIR", "COSTELLO", "HANNIGAN", "KIRWAN", "MCGOVERN", "OQUINN",
+                        "MAHONY", "MULVIHILL", "OHALEY", "CREGAN", "FITZPATRICK", "OHOULIHAN", "OCRAINE", "DELANEY"
+
+                };
         String[] genders = {"Male", "Female"};
-        String[] positions = {"Patrol Officer", "Detective", "Specialist", "Supervisor", "Administrator"};
+        String[] positions =
+                {
+                        "Patrol Officer", "Detective", "Specialist", "Supervisor", "Administrator",
+                        "Crime Prevention Officer", "Scenes of Crime Officer", "Immigration Officer",
+                        "Training Instructor", "Garda National Drugs and Organised Crime Bureau Officer"
+                };
         String[] stations = {"Dublin", "Cork", "Galway", "Limerick", "Waterford"};
 
         for (int i = 0; i < count; i++) {
-            String firstName = firstNames[random.nextInt(firstNames.length)];
-            String lastName = lastNames[random.nextInt(lastNames.length)];
-            String gender = genders[random.nextInt(genders.length)];
+            String firstName = firstNames[random.nextInt(firstNames.length)].toUpperCase();
+            String lastName = lastNames[random.nextInt(lastNames.length)].toUpperCase();
+            String gender = genders[random.nextInt(genders.length)].toUpperCase();
             String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@garda.ie";
-            double salary = 30000 + random.nextInt(70000);
+
+            // Realistic salary between €35,000 and €85,000
+            double salary = 35000 + random.nextInt(50000);
+
             Rank rank = ranks.get(random.nextInt(ranks.size()));
             Unit unit = units.get(random.nextInt(units.size()));
-            String position = positions[random.nextInt(positions.length)];
-            String station = stations[random.nextInt(stations.length)];
+            String position = positions[random.nextInt(positions.length)].toUpperCase();
+            String station = stations[random.nextInt(stations.length)].toUpperCase();
 
             employees.add(new Employee(firstName, lastName, gender, email, salary, unit, rank, position, station));
         }
     }
 }
+
