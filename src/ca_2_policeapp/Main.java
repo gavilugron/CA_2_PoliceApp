@@ -370,3 +370,32 @@ public class Main {
                     System.out.println("Invalid input. Please try again.");
                 }
             }
+            // Adding a Last Name to the new Employee. Using while loop to keep looping until the user type the right input, also using  if-else to handle inputs from the user
+            while (true) {
+                System.out.print("Last Name: ");
+                lastName = scanner.nextLine().trim().toUpperCase();
+
+                if (lastName.matches("[A-Z]{3,}")) {
+                    break;
+                } else if (!lastName.matches("[A-Z]+")) {
+                    System.out.println("Invalid input: " + lastName + ". There is no name which contains Numbers or Special Characters, \nPlease try again (Only letters are allowed).");
+                } else if (lastName.length() < 3) {
+                    System.out.println("Your firstname " + lastName + " is too short, are you sure that are you typing a proper firstname?. \n The First Name must be at least 3 letters long.");
+                } else {
+                    System.out.println("Invalid input. Please try again.");
+                }
+            }
+
+            // Adding a Gender to the new Employee. Using while loop to keep looping until the user type the right input, and if-else statement to handle the input
+            while (true) {
+                System.out.print("Gender (MALE/FEMALE): ");
+                gender = scanner.nextLine().trim().toUpperCase();
+
+                if (gender.equals("MALE") || gender.equals("FEMALE")) {
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter either 'MALE' or 'FEMALE'.");
+                }
+            }
+
+            //Adding a Last Name to the new Employee and Adding a Gender to the new Employee
