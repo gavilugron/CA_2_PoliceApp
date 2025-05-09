@@ -413,12 +413,40 @@ public class Main {
                 }
             }
 
+            salary = getDoubleInput();
 
-        }
 
-    }//
+            // Display available ranks
+            System.out.println("\nAvailable Ranks:");
+            ArrayList<Rank> ranks = policeStation.getRanks();
+            for (int i = 0; i < ranks.size(); i++) {
+                System.out.println((i + 1) + ". " + ranks.get(i).getName());
+            }
+            int rankChoice = getIntInput("Select rank (1-" + ranks.size() + "): ", 1, ranks.size());
+            Rank selectedRank = ranks.get(rankChoice - 1);
 
-            private static int getIntInput(String prompt) {
+            // Display available units
+            System.out.println("\nAvailable Units:");
+            ArrayList<Unit> units = policeStation.getUnits();
+            for (int i = 0; i < units.size(); i++) {
+                System.out.println((i + 1) + ". " + units.get(i).getName());
+            }
+            int unitChoice = getIntInput("Select unit (1-" + units.size() + "): ", 1, units.size());
+            Unit selectedUnit = units.get(unitChoice - 1);
+
+            Display available ranks, units
+
+
+
+
+
+
+
+
+
+
+
+            private static int getIntInput (String prompt){
                 while (true) {
                     try {
                         System.out.print(prompt);
@@ -429,7 +457,7 @@ public class Main {
                 }
             }
 
-            private static int getIntInput(String prompt, int min, int max) {
+            private static int getIntInput (String prompt,int min, int max){
                 while (true) {
                     int value = getIntInput(prompt);
                     if (value >= min && value <= max) {
@@ -439,7 +467,7 @@ public class Main {
                 }
             }
 
-            private static double getDoubleInput() {
+            private static double getDoubleInput () {
                 double salary = 0;
                 Scanner scanner = new Scanner(System.in);
 
@@ -460,3 +488,4 @@ public class Main {
 
                 return salary;
             }
+        }
