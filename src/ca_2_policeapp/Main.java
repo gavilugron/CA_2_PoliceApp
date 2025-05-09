@@ -241,7 +241,7 @@ public class Main {
         }
     }
 
-    //  Sort and Display 1st 20 using App Data
+//                                          Sort and Display 1st 20 using App Data
 //        private static void sortAndDisplayFirst20() {
 //            ArrayList<Employee> employees = new ArrayList<>();
 //
@@ -309,6 +309,7 @@ public class Main {
 //                        "\n--------------------------------------------------------");
 //            }
 //        }
+
 // Search an employee by typing the 1st name
     private static void searchEmployee() {
         System.out.print("\nEnter first name to search: ");
@@ -434,17 +435,34 @@ public class Main {
             int unitChoice = getIntInput("Select unit (1-" + units.size() + "): ", 1, units.size());
             Unit selectedUnit = units.get(unitChoice - 1);
 
-            Display available ranks, units
+            // Display available positions
+            System.out.println("\nAvailable Positions:");
+            for (int i = 0; i < positions.size(); i++) {
+                System.out.println((i + 1) + ". " + positions.get(i));
+            }
+            int posChoice = getIntInput("Select position (1-" + positions.size() + "): ", 1, positions.size());
+            position = positions.get(posChoice - 1);
 
+            // Display available stations
+            System.out.println("\nAvailable Stations:");
+            for (int i = 0; i < stations.size(); i++) {
+                System.out.println((i + 1) + ". " + stations.get(i));
+            }
+            int statChoice = getIntInput("Select station (1-" + stations.size() + "): ", 1, stations.size());
+            station = stations.get(statChoice - 1);
 
+            Employee newEmployee = new Employee(firstName, lastName, gender, email, salary, selectedUnit, selectedRank, position, station);
+            policeStation.addEmployee(newEmployee);
 
-
-
-
-
-
-
-
+            System.out.println("--------------------------------------------------------");
+            System.out.println("Employee added successfully:");
+            System.out.println("--------------------------------------------------------");
+            System.out.println(newEmployee);
+            System.out.println("--------------------------------------------------------");
+        } catch (Exception e) {
+            System.out.println("Invalid Input, please try again: ");
+        }
+    }
 
             private static int getIntInput (String prompt){
                 while (true) {
@@ -488,4 +506,7 @@ public class Main {
 
                 return salary;
             }
+
+
+
         }
