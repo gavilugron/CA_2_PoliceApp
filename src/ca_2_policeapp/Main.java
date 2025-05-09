@@ -26,6 +26,7 @@ public class Main {
             return description;
         }
     }
+
     private static PoliceStation policeStation;
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -168,6 +169,7 @@ public class Main {
             System.out.printf((i + 1) + ". " + MenuOption.values()[i].getDescription() + "\n");
         }
     }
+
     //Sort and Display 1st 20 from Applicants Form
     private static void sortAndDisplayFirst20() {
         ArrayList<Employee> employees = new ArrayList<>();
@@ -238,7 +240,8 @@ public class Main {
                     "\n--------------------------------------------------------");
         }
     }
-//  Sort and Display 1st 20 using App Data
+
+    //  Sort and Display 1st 20 using App Data
 //        private static void sortAndDisplayFirst20() {
 //            ArrayList<Employee> employees = new ArrayList<>();
 //
@@ -343,6 +346,7 @@ public class Main {
             System.out.println("--------------------------------------------------------");
         }
     }
+
     //Case 3: Add new employee
     private static void addNewEmployee() {
         System.out.println("\n---------------- Add New Employee ----------------");
@@ -398,4 +402,61 @@ public class Main {
                 }
             }
 
-            //Adding a Last Name to the new Employee and Adding a Gender to the new Employee
+            //Adding Email to the new employee. Using while loop to keep looping until the user type the right input, and if-else statement to handle the input
+            while (true) {
+                System.out.print("Email (UserName@garda.ie): ");
+                email = scanner.nextLine().trim().toLowerCase();
+                if (email.contains("@garda") && email.contains(".ie")) {
+                    break;
+                } else {
+                    System.out.println("The e-mail typed " + email + " is invalid. \nPlease try again using the following notation: user@garda.ie");
+                }
+            }
+
+
+        }
+
+    }//
+
+            private static int getIntInput(String prompt) {
+                while (true) {
+                    try {
+                        System.out.print(prompt);
+                        return Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a number.");
+                    }
+                }
+            }
+
+            private static int getIntInput(String prompt, int min, int max) {
+                while (true) {
+                    int value = getIntInput(prompt);
+                    if (value >= min && value <= max) {
+                        return value;
+                    }
+                    System.out.println("Please enter a value between " + min + " and " + max + ".");
+                }
+            }
+
+            private static double getDoubleInput() {
+                double salary = 0;
+                Scanner scanner = new Scanner(System.in);
+
+                while (salary < 3000 || salary > 10000) {
+                    System.out.print("Please enter a valid salary between €3,000 and €10,000: ");
+                    try {
+                        salary = Double.parseDouble(scanner.nextLine().trim());
+
+                        if (salary <= 0) {
+                            System.out.println("The salary must be a positive number.");
+                        } else if (salary < 3000 || salary > 10000) {
+                            System.out.println("The salary must be between €3,000 and €10,000.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. The salary must be a number (no letters or special characters).");
+                    }
+                }
+
+                return salary;
+            }
