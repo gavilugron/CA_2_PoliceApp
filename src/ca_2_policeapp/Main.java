@@ -9,9 +9,10 @@ import java.util.Scanner;
 public class Main {
     enum MenuOption {
         SORT_AND_DISPLAY("Sort and display first 20 names from \"Applicants_Form.txt\" file"),
+        SORT_AND_DISPLAY_20("Sort and display first 20 names from data stored in PoliceApp"),
+        GENERATE_RANDOM("Generate random employees"),
         SEARCH_EMPLOYEE("Search for an employee"),
         ADD_EMPLOYEE("Add new employee"),
-        GENERATE_RANDOM("Generate random employees"),
         DISPLAY_ALL("Display all employees"),
         SAVE_TO_FILE("Save sorted names to Applicants_Form.txt file"),
         EXIT("Exit");
@@ -31,8 +32,9 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        initializePoliceStation();
-        applicantsForm();
+        initializePoliceStation(); //Load Rank and Unit
+        applicantsForm(); //Load Positions and Stations
+        loadInitialData(); //Generate 50 random employees at the time to run the app
 
         boolean exit = false;
         while (!exit) {
@@ -44,20 +46,23 @@ public class Main {
                 case SORT_AND_DISPLAY:
                     sortAndDisplayFirst20();
                     break;
-                case SEARCH_EMPLOYEE:
-//                    searchEmployee
-                    break;
-                case ADD_EMPLOYEE:
-//                    addNewEmployee
+                case SORT_AND_DISPLAY_20:
+                    sortFirst20();
                     break;
                 case GENERATE_RANDOM:
-//                    generateRandomEmployees
+                    generateRandomEmployees();
+                    break;
+                case SEARCH_EMPLOYEE:
+                    searchEmployee();
+                    break;
+                case ADD_EMPLOYEE:
+                    addNewEmployee();
                     break;
                 case DISPLAY_ALL:
-//                    displayAllEmployees
+                    displayAllEmployees();
                     break;
                 case SAVE_TO_FILE:
-//                    saveSortedNamesToFile;
+                    policeStation.getEmployees().saveSortedNamesToFile();
                     break;
                 case EXIT:
                     exit = true;
@@ -100,6 +105,7 @@ public class Main {
     private static ArrayList<String> stations;
 
     private static void initializePositionsAndStations() {
+        //Initialize Positions
         positions = new ArrayList<>();
         positions.add("PATROL OFFICER");
         positions.add("DETECTIVE");
@@ -110,7 +116,7 @@ public class Main {
         positions.add("SCENES OF CRIME OFFICER");
         positions.add("IMMIGRATION OFFICER");
         positions.add("TRAINING INSTRUCTOR");
-
+        //Initialize Stations
         stations = new ArrayList<>();
         stations.add("DUBLIN");
         stations.add("CORK");
@@ -199,7 +205,7 @@ public class Main {
                     String station = parts[8].trim();
                     Rank rank = policeStation.findRankByName(rankName);
                     Unit unit = policeStation.findUnitByName(unitName);
-//                        loadInitialData();
+                        loadInitialData();
 
                     if (rank != null && unit != null) {
                         employees.add(new Employee(firstName, lastName, gender, email, salary, unit, rank, position, station));
@@ -241,74 +247,43 @@ public class Main {
         }
     }
 
-//                                          Sort and Display 1st 20 using App Data
-//        private static void sortAndDisplayFirst20() {
-//            ArrayList<Employee> employees = new ArrayList<>();
-//
-//            try {
-//                File file = new File("Applicants_Form.txt");
-//                Scanner fileScanner = new Scanner(file);
-//
-//                while (fileScanner.hasNextLine()) {
-//                    String line = fileScanner.nextLine();
-//                    String[] parts = line.split(",");
-//
-//                    if (parts.length >= 9) {
-//                        String firstName = parts[0].trim();
-//                        String lastName = parts[1].trim();
-//                        String gender = parts[2].trim();
-//                        String email = parts[3].trim();
-//                        double salary = 0;
-//                        try {
-//                            salary = Double.parseDouble(parts[4].replace("€", "").trim());
-//                        } catch (NumberFormatException e) {
-//                            System.out.println("Invalid salary format: " + parts[4] + " . \nPlease write a valid salary:");
-//                        }
-//                        String rankName = parts[5].trim();
-//                        String unitName = parts[6].trim();
-//                        String position = parts[7].trim();
-//                        String station = parts[8].trim();
-//                        Rank rank = policeStation.findRankByName(rankName);
-//                        Unit unit = policeStation.findUnitByName(unitName);
-//                        loadInitialData();
-//
-//                        if (rank != null && unit != null) {
-//                            employees.add(new Employee(firstName, lastName, gender, email, salary, unit, rank, position, station));
-//                        }
-//                    }
-//                }
-//                fileScanner.close();
-//            } catch (FileNotFoundException e) {
-//                System.out.println("Applicants_Form.txt not found.");
-//                return;
-//            }
-//
-//            if (employees.isEmpty()) {
-//                System.out.println("No employees to sort.");
-//                return;
-//            }
-//
-//            // Bubble Sort by first name
-//            for (int i = 0; i < employees.size() - 1; i++) {
-//                for (int j = 0; j < employees.size() - i - 1; j++) {
-//                    if (employees.get(j).getFirstName().compareToIgnoreCase(employees.get(j + 1).getFirstName()) > 0) {
-//                        Employee temp = employees.get(j);
-//                        employees.set(j, employees.get(j + 1));
-//                        employees.set(j + 1, temp);
-//                    }
-//                }
-//            }
-//
-//            System.out.println("\n----- First 20 Sorted Employees from Applicants_Form.txt-----");
-//            for (int i = 0; i < Math.min(20, employees.size()); i++) {
-//                System.out.println("--------------------------------------------------------");
-//                System.out.println("EMPLOYEE NUMBER: " + (i + 1));
-//                System.out.println("--------------------------------------------------------");
-//                System.out.println("Name: " + employees.get(i).getFullName() + "\n Gender: " + employees.get(i).getGender() + "\n Email: " + employees.get(i).getEmail() + "\n Salary: " + employees.get(i).getSalary() + "\n Unit:" + employees.get(i).getUnit()
-//                        + "\n Rank: " + employees.get(i).getRank() + "\n Position: " + employees.get(i).getPosition() + "\n Station: " + employees.get(i).getStation() +
-//                        "\n--------------------------------------------------------");
-//            }
-//        }
+    // Sort and Display First 20 Employees from App Data
+    private static void sortFirst20() {
+        ArrayList<Employee> employees = policeStation.getEmployees();
+
+        if (employees == null || employees.isEmpty()) {
+            System.out.println("No employees to sort.");
+            return;
+        }
+
+        // Bubble Sort by first name
+        for (int i = 0; i < employees.size() - 1; i++) {
+            for (int j = 0; j < employees.size() - i - 1; j++) {
+                if (employees.get(j).getFirstName().compareToIgnoreCase(employees.get(j + 1).getFirstName()) > 0) {
+                    Employee temp = employees.get(j);
+                    employees.set(j, employees.get(j + 1));
+                    employees.set(j + 1, temp);
+                }
+            }
+        }
+
+        System.out.println("\n----- First 20 Sorted Employees from App Data -----");
+        for (int i = 0; i < Math.min(20, employees.size()); i++) {
+            Employee emp = employees.get(i);
+            System.out.println("--------------------------------------------------------");
+            System.out.println("EMPLOYEE NUMBER: " + (i + 1));
+            System.out.println("--------------------------------------------------------");
+            System.out.println("Name: " + emp.getFullName()
+                    + "\nGender: " + emp.getGender()
+                    + "\nEmail: " + emp.getEmail()
+                    + "\nSalary: " + emp.getSalary()
+                    + "\nUnit: " + emp.getUnit()
+                    + "\nRank: " + emp.getRank()
+                    + "\nPosition: " + emp.getPosition()
+                    + "\nStation: " + emp.getStation());
+            System.out.println("--------------------------------------------------------");
+        }
+    }
 
 // Search an employee by typing the 1st name
     private static void searchEmployee() {
@@ -328,7 +303,8 @@ public class Main {
 
         // Call binary search with corrected bounds
         int index = employeeArray.binarySearchRecursive(name, 0, employeeArray.size() - 1);
-
+        int i = 0;
+        for (employeeArray.size() > i){
         if (index != -1) {
             Employee found = employeeArray.get(index);
             System.out.println("--------------------------------------------------------");
@@ -346,7 +322,7 @@ public class Main {
             System.out.println("EMPLOYEE NOT FOUND: " + name);
             System.out.println("--------------------------------------------------------");
         }
-    }
+    }}
 
     //Case 3: Add new employee
     private static void addNewEmployee() {
@@ -507,6 +483,31 @@ public class Main {
                 return salary;
             }
 
+            private static void loadInitialData() {
+                policeStation.generateRandomEmployees(50);
+            }
 
+            private static void generateRandomEmployees() {
+                int count = getIntInput("How many random employees to generate? : ");
+                policeStation.generateRandomEmployees(count);
+                System.out.println(count + " random employees generated successfully.");
+            }
 
+            private static void displayAllEmployees() {
+                ArrayList<Employee> employees = policeStation.getEmployees();
+                if (employees.isEmpty()) {
+                    System.out.println("No employees to display.");
+                    return;
+                }
+
+                System.out.println("\n---------------------------- All Employees ----------------------------");
+
+                for (int i = 0; i < employees.size(); i++) {
+                    System.out.println("-------------------------------------------------------------------------");
+                    System.out.println("EMPLOYEE NUMBER: " + (i + 1));
+                    System.out.println("-------------------------------------------------------------------------");
+                    System.out.println(employees.get(i));
+                    System.out.println("-------------------------------------------------------------------------");
+                }
+            }
         }
