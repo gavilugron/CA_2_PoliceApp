@@ -343,3 +343,30 @@ public class Main {
             System.out.println("--------------------------------------------------------");
         }
     }
+    //Case 3: Add new employee
+    private static void addNewEmployee() {
+        System.out.println("\n---------------- Add New Employee ----------------");
+        String firstName = "";
+        String lastName = "";
+        String gender = "";
+        String email = "";
+        double salary = 0;
+        String position = "";
+        String station = "";
+
+        try {
+            // Adding First Name for the new applicant.  Using while loop to keep looping until the user type the right input, also using  if-else to handle inputs from the user
+            while (true) {
+                System.out.print("First Name: ");
+                firstName = scanner.nextLine().trim().toUpperCase();
+
+                if (firstName.matches("[A-Z]{3,}")) {
+                    break;
+                } else if (!firstName.matches("[A-Z]+")) {
+                    System.out.println("Invalid input: " + firstName + ". There is no name which contains Numbers or Special Characters, \nPlease try again (Only letters are allowed).");
+                } else if (firstName.length() < 3) {
+                    System.out.println("Your firstname " + firstName + " is too short, are you sure that are you typing a proper firstname?. \n The First Name must be at least 3 letters long.");
+                } else {
+                    System.out.println("Invalid input. Please try again.");
+                }
+            }
