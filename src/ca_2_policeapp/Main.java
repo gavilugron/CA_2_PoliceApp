@@ -7,6 +7,25 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    enum MenuOption {
+        SORT_AND_DISPLAY("Sort and display first 20 names from \"Applicants_Form.txt\" file"),
+        SEARCH_EMPLOYEE("Search for an employee"),
+        ADD_EMPLOYEE("Add new employee"),
+        GENERATE_RANDOM("Generate random employees"),
+        DISPLAY_ALL("Display all employees"),
+        SAVE_TO_FILE("Save sorted names to Applicants_Form.txt file"),
+        EXIT("Exit");
+
+        private final String description;
+
+        MenuOption(String description) {
+            this.description = description.toUpperCase();
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
     private static PoliceStation policeStation;
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -149,3 +168,48 @@ public class Main {
             System.out.printf((i + 1) + ". " + MenuOption.values()[i].getDescription() + "\n");
         }
     }
+    private static void sortAndDisplayFirst20() {
+        ArrayList<Employee> employees = new ArrayList<>();
+
+        try {
+            File file = new File("Applicants_Form.txt");
+            Scanner fileScanner = new Scanner(file);
+
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(",");
+
+                if (parts.length >= 9) {
+                    String firstName = parts[0].trim();
+                    String lastName = parts[1].trim();
+                    String gender = parts[2].trim();
+                    String email = parts[3].trim();
+                    double salary = 0;
+                    try {
+                        salary = Double.parseDouble(parts[4].replace("€", "").trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid salary format: " + parts[4] + " . \nPlease write a valid salary:");
+                    }
+                    String rankName = parts[5].trim();
+                    String unitName = parts[6].trim();
+                    String position = parts[7].trim();
+                    String station = parts[8].trim();
+                    Rank rank = policeStation.findRankByName(rankName);
+                    Unit unit = policeStation.findUnitByName(unitName);
+//                        loadInitialData();
+
+                    if (rank != null && unit != null) {
+                        employees.add(new Employee(firstName, lastName, gender, email, salary, unit, rank, position, station));
+                    }
+                }
+            }
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Applicants_Form.txt not found.");
+            return;
+        }
+
+        if (employees.isEmpty()) {
+            System.out.println("No employees to sort.");
+            return;
+        }
