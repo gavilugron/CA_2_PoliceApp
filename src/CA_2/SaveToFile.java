@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 
 public class SaveToFile<SaveToFile> extends ArrayList<SaveToFile> {
+    //Method to sabe the app records into the Applicants_form.txt appending the records to the file
     public void saveSortedNamesToFile() {
         try {
             File file = new File("Applicants_Form.txt");

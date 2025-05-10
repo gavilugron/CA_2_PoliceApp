@@ -81,7 +81,7 @@ public class Employee implements Comparable<Employee>{
         return station;
     }
 
-
+    // To string method
     @Override
     public String toString() {
         return "Name: " + getFullName() + "\n" +
@@ -93,7 +93,7 @@ public class Employee implements Comparable<Employee>{
                 "Position: " + position + "\n" +
                 "Station: " + station;
     }
-
+    // Compare to method
     @Override
     public int compareTo(Employee o) {
 

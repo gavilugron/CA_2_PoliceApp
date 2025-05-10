@@ -15,7 +15,7 @@ public class PoliceStation {
     private ArrayList<Unit> units;
     private ArrayList<String> positions;
     private ArrayList<String> stations;
-
+    //Array List of employees
     public PoliceStation(ArrayList<Rank> ranks, ArrayList<Unit> units, ArrayList<String> positions, ArrayList<String> stations) {
         this.employees = new SaveToFile<>();
         this.ranks = ranks;
@@ -24,10 +24,12 @@ public class PoliceStation {
         this.stations = stations;
     }
 
+
     public void addEmployee(Employee employee) {
         employees.add(employee);
     }
 
+    // Getter methods for employees
     public SaveToFile<Employee> getEmployees() {
         return employees;
     }
@@ -58,6 +60,7 @@ public class PoliceStation {
         return null;
     }
 
+    //Method to randomize employees
     public void generateRandomEmployees(int count) {
         Random random = new Random();
         String[] firstNames =
