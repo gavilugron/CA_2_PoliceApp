@@ -1,4 +1,4 @@
-package ca_2_policeapp;
+package CA_2;
 
 
 import java.io.File;
@@ -13,7 +13,8 @@ public class Main {
         GENERATE_RANDOM("Generate random employees"),
         SEARCH_EMPLOYEE("Search for an employee"),
         ADD_EMPLOYEE("Add new employee"),
-        DISPLAY_ALL("Display all employees"),
+        DISPLAY_ALL_FILE("Display all employees from \"Applicants_Form.txt\" file"),
+        DISPLAY_ALL_APP("Display all employees from Police App"),
         SAVE_TO_FILE("Save sorted names to Applicants_Form.txt file"),
         EXIT("Exit");
 
@@ -39,7 +40,7 @@ public class Main {
         boolean exit = false;
         while (!exit) {
             displayMainMenu();
-            int choice = getIntInput("Select an option between 1-7: ");
+            int choice = getIntInput("Select an option between 1-9: ");
             MenuOption selected = MenuOption.values()[choice - 1];
 
             switch (selected) {
@@ -58,8 +59,11 @@ public class Main {
                 case ADD_EMPLOYEE:
                     addNewEmployee();
                     break;
-                case DISPLAY_ALL:
-                    displayAllEmployees();
+                case DISPLAY_ALL_FILE:
+                    displayFileEmployees();
+                    break;
+                case DISPLAY_ALL_APP:
+                    displayAppEmployees();
                     break;
                 case SAVE_TO_FILE:
                     policeStation.getEmployees().saveSortedNamesToFile();
@@ -205,7 +209,7 @@ public class Main {
                     String station = parts[8].trim();
                     Rank rank = policeStation.findRankByName(rankName);
                     Unit unit = policeStation.findUnitByName(unitName);
-                        loadInitialData();
+                    loadInitialData();
 
                     if (rank != null && unit != null) {
                         employees.add(new Employee(firstName, lastName, gender, email, salary, unit, rank, position, station));
@@ -286,30 +290,53 @@ public class Main {
     }
 
 // Search an employee by typing the 1st name
-    private static void searchEmployee() {
-        System.out.print("\nEnter first name to search: ");
-        String name = scanner.nextLine().trim();
+private static void searchEmployee() {
+    System.out.print("\nEnter first name to search: ");
+    String name = scanner.nextLine().trim();
+    //Search the employee typed by the user into the PoliceStation Arraylist
+    ArrayList<Employee> employees = policeStation.getEmployees();
+    if (employees.isEmpty()) {
+        System.out.println("There are no records, please add some employees first.");
+        return;
+    }
 
-        ArrayList<Employee> employees = policeStation.getEmployees();
-        if (employees.isEmpty()) {
-            System.out.println("There are no records, please add some employees first.");
-            return;
+    // Copy and sort the employee list
+    BubbleSort<Employee> employeeArray = new BubbleSort<>();
+    employeeArray.addAll(employees);
+    employeeArray.bubbleSort();
+
+    // Binary search to find one matching employee
+    int index = employeeArray.binarySearchRecursive(name, 0, employeeArray.size() - 1);
+
+    if (index != -1) {
+
+        int left = index - 1;
+        int right = index + 1;
+        // Array which store the matches
+        ArrayList<Employee> matches = new ArrayList<>();
+        //Add function which add the matches to the matches array
+        matches.add(employeeArray.get(index));
+
+        // Check to the left side of the array
+        while (left >= 0 && employeeArray.get(left).getFirstName().equalsIgnoreCase(name)) {
+            matches.add(0, employeeArray.get(left)); // add to the beginning
+            left--;
         }
 
-        // Copy and sort the employee list
-        BubbleSort<Employee> employeeArray = new BubbleSort<>();
-        employeeArray.addAll(employees);
-        employeeArray.bubbleSort();
+        // Check to the right side of the array
+        while (right < employeeArray.size() && employeeArray.get(right).getFirstName().equalsIgnoreCase(name)) {
+            matches.add(employeeArray.get(right));
+            right++;
+        }
 
-        // Call binary search with corrected bounds
-        int index = employeeArray.binarySearchRecursive(name, 0, employeeArray.size() - 1);
-        int i = 0;
-        for (employeeArray.size() > i){
-        if (index != -1) {
-            Employee found = employeeArray.get(index);
-            System.out.println("--------------------------------------------------------");
-            System.out.println("EMPLOYEE FOUND: ");
-            System.out.println("--------------------------------------------------------");
+        // Display all found matches
+        System.out.println("--------------------------------------------------------");
+        System.out.println("EMPLOYEES FOUND: " + matches.size());
+        System.out.println("--------------------------------------------------------");
+
+        int count = 1;
+        for (Employee found : matches) {
+            System.out.println("EMPLOYEE " + count++);
             System.out.println("Name: " + found.getFullName());
             System.out.println("Rank: " + found.getRank().getName());
             System.out.println("Unit: " + found.getUnit().getName());
@@ -317,14 +344,19 @@ public class Main {
             System.out.println("Station: " + found.getStation());
             System.out.println("Email: " + found.getEmail());
             System.out.println("Salary: €" + found.getSalary());
-        } else {
-            System.out.println("--------------------------------------------------------");
-            System.out.println("EMPLOYEE NOT FOUND: " + name);
             System.out.println("--------------------------------------------------------");
         }
-    }}
 
-    //Case 3: Add new employee
+    }
+    else
+    {
+        System.out.println("--------------------------------------------------------");
+        System.out.println("EMPLOYEE NOT FOUND: " + name);
+        System.out.println("--------------------------------------------------------");
+    }
+}
+
+    // Add a new employee, which is typed by the user
     private static void addNewEmployee() {
         System.out.println("\n---------------- Add New Employee ----------------");
         String firstName = "";
@@ -437,77 +469,126 @@ public class Main {
             System.out.println("--------------------------------------------------------");
         } catch (Exception e) {
             System.out.println("Invalid Input, please try again: ");
-        }
     }
+}
 
-            private static int getIntInput (String prompt){
-                while (true) {
-                    try {
-                        System.out.print(prompt);
-                        return Integer.parseInt(scanner.nextLine());
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a number.");
+        private static int getIntInput (String prompt){
+            while (true) {
+                try {
+                    System.out.print(prompt);
+                    return Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                }
+            }
+        }
+
+        private static int getIntInput (String prompt,int min, int max){
+            while (true) {
+                int value = getIntInput(prompt);
+                if (value >= min && value <= max) {
+                    return value;
+                }
+                System.out.println("Please enter a value between " + min + " and " + max + ".");
+            }
+        }
+        //Method to assign a random fom salary between 3.000 10.000
+        private static double getDoubleInput () {
+            double salary = 0;
+            Scanner scanner = new Scanner(System.in);
+
+            while (salary < 3000 || salary > 10000) {
+                System.out.print("Please enter a valid salary between €3,000 and €10,000: ");
+                try {
+                    salary = Double.parseDouble(scanner.nextLine().trim());
+
+                    if (salary <= 0) {
+                        System.out.println("The salary must be a positive number.");
+                    } else if (salary < 3000 || salary > 10000) {
+                        System.out.println("The salary must be between €3,000 and €10,000.");
                     }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. The salary must be a number (no letters or special characters).");
                 }
             }
 
-            private static int getIntInput (String prompt,int min, int max){
-                while (true) {
-                    int value = getIntInput(prompt);
-                    if (value >= min && value <= max) {
-                        return value;
-                    }
-                    System.out.println("Please enter a value between " + min + " and " + max + ".");
-                }
+            return salary;
+        }
+        //Create 50 records with random employees at the time that the App runs
+        private static void loadInitialData() {
+            policeStation.generateRandomEmployees(50);
+        }
+        //Generate Random Employees method for Generate Random Employees menu option
+        private static void generateRandomEmployees() {
+            int count = getIntInput("How many random employees to generate? : ");
+            policeStation.generateRandomEmployees(count);
+            System.out.println(count + " random employees generated successfully.");
+        }
+        //Display All the employees that are stored into the App
+        private static void displayAppEmployees() {
+            ArrayList<Employee> employees = policeStation.getEmployees();
+            if (employees.isEmpty()) {
+                System.out.println("No employees to display.");
+                return;
             }
 
-            private static double getDoubleInput () {
-                double salary = 0;
-                Scanner scanner = new Scanner(System.in);
+            System.out.println("\n---------------------------- All Employees ----------------------------");
 
-                while (salary < 3000 || salary > 10000) {
-                    System.out.print("Please enter a valid salary between €3,000 and €10,000: ");
-                    try {
-                        salary = Double.parseDouble(scanner.nextLine().trim());
+            for (int i = 0; i < employees.size(); i++) {
+                System.out.println("-------------------------------------------------------------------------");
+                System.out.println("EMPLOYEE NUMBER: " + (i + 1));
+                System.out.println("-------------------------------------------------------------------------");
+                System.out.println(employees.get(i));
+                System.out.println("-------------------------------------------------------------------------");
+            }
+        }
 
-                        if (salary <= 0) {
-                            System.out.println("The salary must be a positive number.");
-                        } else if (salary < 3000 || salary > 10000) {
-                            System.out.println("The salary must be between €3,000 and €10,000.");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. The salary must be a number (no letters or special characters).");
-                    }
-                }
+        //Display All the employees that are stored into the File Applicants_Form.txt
+        private static void displayFileEmployees() {
+            File file = new File("Applicants_Form.txt");
 
-                return salary;
+            if (!file.exists()) {
+                System.out.println("Applicants_Form.txt not found.");
+                return;
             }
 
-            private static void loadInitialData() {
-                policeStation.generateRandomEmployees(50);
-            }
+            try (Scanner fileScanner = new Scanner(file)) {
+                int count = 0;
 
-            private static void generateRandomEmployees() {
-                int count = getIntInput("How many random employees to generate? : ");
-                policeStation.generateRandomEmployees(count);
-                System.out.println(count + " random employees generated successfully.");
-            }
-
-            private static void displayAllEmployees() {
-                ArrayList<Employee> employees = policeStation.getEmployees();
-                if (employees.isEmpty()) {
-                    System.out.println("No employees to display.");
-                    return;
+                // Skip the header line
+                if (fileScanner.hasNextLine()) {
+                    fileScanner.nextLine();
                 }
 
                 System.out.println("\n---------------------------- All Employees ----------------------------");
 
-                for (int i = 0; i < employees.size(); i++) {
-                    System.out.println("-------------------------------------------------------------------------");
-                    System.out.println("EMPLOYEE NUMBER: " + (i + 1));
-                    System.out.println("-------------------------------------------------------------------------");
-                    System.out.println(employees.get(i));
-                    System.out.println("-------------------------------------------------------------------------");
+                while (fileScanner.hasNextLine()) {
+                    String line = fileScanner.nextLine();
+                    String[] parts = line.split(",");
+
+                    if (parts.length >= 9) {
+                        count++;
+                        System.out.println("-------------------------------------------------------------------------");
+                        System.out.println("EMPLOYEE NUMBER: " + count);
+                        System.out.println("-------------------------------------------------------------------------");
+                        System.out.println("Name: " + parts[0].trim() + " " + parts[1].trim());
+                        System.out.println("Gender: " + parts[2].trim());
+                        System.out.println("Email: " + parts[3].trim());
+                        System.out.println("Salary: " + parts[4].trim());
+                        System.out.println("Unit: " + parts[5].trim());
+                        System.out.println("Rank: " + parts[6].trim());
+                        System.out.println("Position: " + parts[7].trim());
+                        System.out.println("Station: " + parts[8].trim());
+                        System.out.println("-------------------------------------------------------------------------");
+                    }
                 }
+
+                if (count == 0) {
+                    System.out.println("No employee records found in Applicants_Form.txt.");
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println("Error reading Applicants_Form.txt: " + e.getMessage());
             }
         }
+    }

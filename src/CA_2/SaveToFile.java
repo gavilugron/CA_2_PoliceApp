@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ca_2_policeapp;
+package CA_2;
 
 
 import java.io.File;
@@ -18,11 +18,18 @@ import java.util.ArrayList;
 public class SaveToFile<SaveToFile> extends ArrayList<SaveToFile> {
     public void saveSortedNamesToFile() {
         try {
-            File file = new File("Applicants_Form2.txt");
-            FileWriter writer = new FileWriter(file);
+            File file = new File("Applicants_Form.txt");
 
-            // Write header
-            writer.write("firstName,lastName,gender,email,salary,unit,rank,position,station\n");
+            // Check if the file already exists to decide whether to write the header
+            boolean isNewFile = !file.exists();
+
+            // Open in append mode
+            FileWriter writer = new FileWriter(file, true);
+
+            // Write header only if it's a new file
+            if (isNewFile) {
+                writer.write("firstName,lastName,gender,email,salary,unit,rank,position,station\n");
+            }
 
             for (SaveToFile item : this) {
                 if (item instanceof Employee) {
@@ -40,7 +47,7 @@ public class SaveToFile<SaveToFile> extends ArrayList<SaveToFile> {
             }
 
             writer.close();
-            System.out.println("Employee data saved to Applicants_Form.txt");
+            System.out.println("New Employee data appended to Applicants_Form.txt");
         } catch (IOException e) {
             System.out.println("Error writing to file: " + e.getMessage());
         }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ca_2_policeapp;
+package CA_2;
 import java.util.*;
 /**
  *
@@ -78,7 +78,7 @@ public class PoliceStation {
                         "BOYLE", "MOORE", "MORAN", "FARRELL", "CARROLL", "GREENE", "HEALY", "COLLINS", "REDMOND", "FINN", "MCGRATH",
                         "OLOUGHLIN", "SCANLON", "BURKE", "CONNOLLY", "MULCAHY", "MCLOUGHLIN", "OCRAIG", "DEVLIN", "SULLIVAN",
                         "MCMAHON", "OFLAHERTY", "MCNAMARA", "OCEALLAIGH", "OHEHIR", "COSTELLO", "HANNIGAN", "KIRWAN", "MCGOVERN", "OQUINN",
-                        "MAHONY", "MULVIHILL", "OHALEY", "CREGAN", "FITZPATRICK", "OHOULIHAN", "OCRAINE", "DELANEY"
+                        "MAHONY", "MULVIHILL", "OHALEY", "CREGAN", "FITZPATRICK", "OHOULIHAN", "OCRAINE", "DELANEY", "LEE"
 
                 };
         String[] genders = {"Male", "Female"};
